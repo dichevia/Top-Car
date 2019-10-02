@@ -1,0 +1,87 @@
+{% extends 'base.html.twig' %}
+
+{% block body_id "index" %}
+{% block main %}
+    <!-- Page Content -->
+    <div class="container">
+
+        <!-- Jumbotron Header -->
+        <header class="jumbotron my-4">
+
+            <p>
+                <a href="{{ path('car_all') }}" id="jumbotron-button" class="btn btn-primary my-1 align-bottom">Browse all cars!</a>
+            </p>
+        </header>
+        <div class="card my-4">
+            <h5 class="card-header">Brands</h5>
+            <div class="card-body">
+                <div class="row">
+                    {% for brand in brands %}
+                        <div class="col-sm-2">
+
+                            <ul class="list-unstyled mb-8">
+
+                                <li>
+                                    <a href="{{ path('car_brand', {'brand':brand.name}) }}">
+                                        <img src="{{ asset('uploads/cars/brands/' ~ brand.image) }}" height="80" alt="none">
+                                        </a>
+                                </li>
+
+                            </ul>
+
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="card my-4">
+            <h5 class="card-header">Categories</h5>
+            <div class="card-body">
+                <div class="row">
+                    {% for body in bodies %}
+                        <div class="col-lg-4">
+
+                            <ul class="list-unstyled mb-0">
+
+                                <li>
+                                    <a href="{{ path('car_body', {'type':body.type}) }}">
+                                        <img src="{{ asset('uploads/cars/types/' ~ body.image) }}" height="100" width="150" alt="none">
+                                        {{ body.type }}</a>
+                                </li>
+
+                            </ul>
+
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <hr>
+        <p class="lead text-lg-center">Most viewed </p>
+        <hr>
+        <!-- Page Features -->
+        <div class="row text-center">
+            {% for car in cars %}
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card h-100">
+                        <img class="card-img-top" src="{{ asset('uploads/cars/images/' ~ car.image ) }}" alt="">
+                        <div class="card-body">
+                            <h4 class="card-title">{{ car.brand }} {{ car.model }}</h4>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{{ path('car_view', {'id':car.id}) }}" class="btn btn-sm btn-outline-primary">Find
+                                Out More!</a>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            {% endfor %}
+        </div>
+
+        <!-- /.row -->
+
+    </div>
+    <!-- /.container -->
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block body_id 'user_profile' %}
+
+{% block main %}
+
+    <div class="container-profile">
+
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+
+        <div class="row">
+            <div class="col-md-6 img">
+                <img src="{{ asset('uploads/users/avatars/' ~user.avatar) }}" width="150"
+                     alt="" class="img-rounded">
+                <div class="card my-4">
+                    <h5 class="card-header">Send a message</h5>
+                    <div class="card-body">
+                        <form method="post" action="{{ path('send_message', {'id':user.id}) }}">
+                            <div class="form-group">
+                                <input class="form-control" name="message[title]" placeholder="Subject">
+                            </div>
+                            <div class="form-group">
+                                    <textarea class="form-control" rows="3" name="message[body]"
+                                              placeholder="Content"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Send</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 details">
+                <blockquote>
+                    <h5>{{ user.firstName }} {{ user.lastName }}</h5>
+                </blockquote>
+                <dl class="row">
+                    <dt class="col-sm-3">Email:</dt>
+                    <dd class="col-sm-9">{{ user.email }}</dd>
+                    <dt class="col-sm-3 text-truncate">Cars:</dt>
+                    <dd class="col-sm-9">{{ user.cars|length }}</dd>
+
+                    {% if app.user.id == user.id %}
+                        <dt class="col-sm-3">Comments:</dt>
+                        <dd class="col-sm-9">{{ user.comments|length }}
+                        </dd>
+                    {% endif %}
+                </dl>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

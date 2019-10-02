@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block body_id 'edit_comment' %}
+
+{% block main %}
+
+    <div class="card my-4">
+        <h5 class="card-header">Edit Comment:</h5>
+        <div class="card-body">
+            <form method="post" action="{{ path('edit', {'id':comment.id}) }}">
+                <div class="form-group">
+                    <textarea class="form-control" rows="3" name="comment[content]">{{ comment.content }}</textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Edit</button>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+

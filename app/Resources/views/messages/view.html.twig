@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block body_id 'message' %}
+
+
+{% block main %}
+
+    <div class="signup-form">
+        <div class="card text-lg-center">
+            <div class="card-header bg-transparent ">
+                 {{ message.title }}
+            </div>
+            <div class="card-body">
+                <blockquote class="blockquote mb-0">
+                    <p>{{ message.body }}</p>
+
+                </blockquote>
+            </div>
+            <div class="card-footer bg-transparent ">
+                <footer class="blockquote-footer">{{ message.sender.firstName }} {{ message.sender.lastName }},
+                    <cite title="Source Title">{{ message.createdOn|date("F jS \\a\\t g:ia") }}</cite>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+

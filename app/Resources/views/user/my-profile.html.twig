@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block body_id 'my_profile' %}
+{% block main %}
+    <div class="container-profile">
+
+        <div class="row">
+            <div class="col-md-6 img">
+
+                <img src="{{ asset('uploads/users/avatars/' ~user.avatar) }}" width="150"
+                     alt="" class="img-rounded">
+                <div class="container mt-4">
+                    <form action="{{ path('my_profile') }}" enctype="multipart/form-data" method="post">
+                        <div class="form-group">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="inputGroupFile01"
+                                       aria-describedby="inputGroupFileAddon01" name="avatar[avatar]">
+                                <label class="custom-file-label" for="inputGroupFile01">Choose image</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success btn-md btn-block">Change Avatar</button>
+                        </div>
+                        {{ form_row(form._token) }}
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-md-6 details">
+                <blockquote>
+                    <h5>{{ user.firstName }} {{ user.lastName }}</h5>
+                </blockquote>
+                <dl class="row">
+                    <dt class="col-sm-3">Email:</dt>
+                    <dd class="col-sm-9">{{ user.email }}</dd>
+                    <dt class="col-sm-3 text-truncate">Cars:</dt>
+                    <dd class="col-sm-9">{{ user.cars|length }}</dd>
+                    <dt class="col-sm-3">Comments:</dt>
+                    <dd class="col-sm-9"><a
+                                href="{{ path('my-comments') }}">{{ user.comments|length }}</a>
+                    </dd>
+                    <dt class="col-sm-3">Inbox:</dt>
+                    <dd class="col-sm-9"><a
+                                href="{{ path('received') }}">{{ user.receivedMessages|length }}</a></dd>
+                    <dt class="col-sm-3">Sent:</dt>
+                    <dd class="col-sm-9"><a
+                                href="{{ path('sent') }}">{{ user.sentMessages|length }}</a></dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

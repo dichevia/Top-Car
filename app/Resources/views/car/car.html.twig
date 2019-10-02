@@ -1,0 +1,195 @@
+{% extends 'base.html.twig' %}
+
+{% block body_id 'view' %}
+
+{% block main %}
+    <div class="container">
+        {% for flashMessage in app.session.flashbag.get('warning') %}
+
+            <div class="alert alert-error">
+                <div class="alert alert-warning alert-dismissible fade show">
+                    <strong>Warning!</strong> {{ flashMessage }}
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                </div>
+            </div>
+        {% endfor %}
+
+        <div class="row">
+
+            <!-- Post Content Column -->
+            <div class="col-lg-8">
+
+                <!-- Title -->
+                <h1 class="mt-4">{{ car.brand }} {{ car.model }}</h1>
+                <div class="pull-right">
+
+                    {% if  app.getUser and app.getUser().isAdmin() %}
+                        <a class="btn btn-outline-success" href="{{ path('car_edit', {'id': car.id}) }}">Edit
+                            &raquo;</a>
+                        <a class="btn btn-outline-danger"
+                           href="{{ path('car_delete', {'id': car.id}) }}">Delete
+                            &raquo;</a>
+                    {% endif %}
+
+                </div>
+                <!-- Author -->
+                <p class="lead">
+                    by
+                    <a href="{{ path('user_profile',{'id':car.owner.id}) }}">{{ car.owner.firstName }} {{ car.owner.lastName }}</a>
+                </p>
+
+
+                <hr>
+
+                <!-- Date/Time -->
+                <p>Posted on {{ car.dateAdded|date }} </p>
+
+                <hr>
+
+                <!-- Preview Image -->
+                <img class="img-fluid rounded" src="{{ asset('uploads/cars/images/' ~ car.image ) }}" alt="">
+
+                <hr>
+
+                <!-- Post Content -->
+                <p class="lead">
+                <h3>Technical Data</h3></p>
+
+                <hr>
+
+                <dl class="row">
+                    <dt class="col-sm-3">Body Type</dt>
+                    <dd class="col-sm-9">{{ car.body }}</dd>
+                    <dt class="col-sm-3 text-truncate">Year manufactured</dt>
+                    <dd class="col-sm-9">{{ car.year }}</dd>
+                    <dt class="col-sm-3">Fuel Type</dt>
+                    <dd class="col-sm-9">{{ car.fuel }}</dd>
+                    <dt class="col-sm-3">Power</dt>
+                    <dd class="col-sm-9">{{ car.power }}hp</dd>
+                    <dt class="col-sm-3">Acceleration</dt>
+                    <dd class="col-sm-9">{{ car.acceleration }}sec</dd>
+                    <dt class="col-sm-3">Top Speed</dt>
+                    <dd class="col-sm-9">{{ car.topSpeed }} km/h</dd>
+                </dl>
+
+                <hr>
+
+                {% if app.user %}
+                    <!-- Comments Form -->
+                    <div class="card my-4">
+                        <h5 class="card-header">Leave a Comment:</h5>
+                        <div class="card-body">
+                            <form method="post" action="{{ path('create_comment', {'id':car.id}) }}">
+                                <div class="form-group">
+                                    <textarea class="form-control" rows="3" name="comment[content]"></textarea>
+                                </div>
+                                {{ form_row(form._token) }}
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                {% endif %}
+                <!-- Single Comment -->
+                <h3>Comments</h3>
+                <hr>
+                {% for comment in comments %}
+
+                    <div class="media mb-4">
+
+                        <img class="d-flex mr-3 rounded-circle"
+                             src="{{ asset('uploads/users/avatars/' ~comment.author.avatar) }}" alt="" width="50">
+                        <div class="media-body ">
+                            <h5 class="mt-0"><a
+                                        href="{{ path('user_profile',{'id':comment.author.id}) }}">{{ comment.author.firstName }} {{ comment.author.lastName }}</a>
+                            </h5>
+                            {{ comment.content }}
+                        </div>
+
+                        {% if comment.isEdited %}
+                            <small class="text-muted">Edited on {{ comment.dateAdded|date }}</small>
+                        {% else %}
+                            <small class="text-muted">{{ comment.dateAdded|date }}</small>
+                        {% endif %}
+                    </div>
+                    <hr>
+                {% endfor %}
+
+
+            </div>
+
+            <!-- Sidebar Widgets Column -->
+            <div class="col-md-4">
+
+                {#                <!-- Search Widget -->#}
+                {#                <div class="card my-4">#}
+                {#                    <h5 class="card-header">Search</h5>#}
+                {#                    <div class="card-body">#}
+                {#                        <div class="input-group">#}
+                {#                            <input type="text" class="form-control" placeholder="Search for...">#}
+                {#                            <span class="input-group-btn">#}
+                {#                <button class="btn btn-secondary" type="button">Go!</button>#}
+                {#              </span>#}
+                {#                        </div>#}
+                {#                    </div>#}
+                {#                </div>#}
+
+                <!-- Categories Widget -->
+                <div class="card my-4">
+                    <h5 class="card-header">Brands</h5>
+                    <div class="card-body">
+                        <div class="row">
+                            {% for brand in brands %}
+                                <div class="col-lg-6">
+
+                                    <ul class="list-unstyled mb-0">
+
+                                        <li>
+                                            <a href="{{ path('car_brand', {'brand':brand.name}) }}">{{ brand.name }}</a>
+                                        </li>
+
+                                    </ul>
+
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="card my-4">
+                    <h5 class="card-header">Categories</h5>
+                    <div class="card-body">
+                        <div class="row">
+                            {% for body in bodies %}
+                                <div class="col-lg-6">
+
+                                    <ul class="list-unstyled mb-0">
+
+                                        <li>
+                                            <a href="{{ path('car_body', {'type':body.type}) }}">{{ body.type }}</a>
+                                        </li>
+
+                                    </ul>
+
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                {#                <!-- Side Widget -->#}
+                {#                <div class="card my-4">#}
+                {#                    <h5 class="card-header">Side Widget</h5>#}
+                {#                    <div class="card-body">#}
+                {#                        You can put anything you want inside of these side widgets. They are easy to use, and feature#}
+                {#                        the new Bootstrap 4 card containers!#}
+                {#                    </div>#}
+                {#                </div>#}
+
+            </div>
+
+        </div>
+        <!-- /.row -->
+
+    </div>
+    <!-- /.container -->
+{% endblock %}
+

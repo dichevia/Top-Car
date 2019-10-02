@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body_id 'received' %}
+
+{% block main %}
+
+    <div class="container">
+        <div class="table-wrapper">
+            <h2>Inbox</h2>
+            <p class="hint-text">All received messages</p>
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>From</th>
+                    <th>Subject</th>
+                    <th>Status</th>
+                    <th>View</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for message in received %}
+                    <tr>
+                        <td><a href="{{ path('user_profile', {'id': message.sender.id}) }}">
+                                {{ message.sender.firstName }} {{ message.sender.lastName }}</a></td>
+                        <td>{{ message.title }}</td>
+                        {% if message.seen == true %}
+                        <td><span class="badge badge-success">read</span></td>
+                        {% else %}
+                            <td><span class="badge badge-danger">unread</span></td>
+                            {% endif %}
+                        <td><a href="{{ path('view_received', {'id':message.id}) }}">View</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+{% endblock %}
+

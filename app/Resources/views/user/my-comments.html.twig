@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body_id 'my_comments' %}
+
+{% block main %}
+
+    <div class="container">
+        <div class="table-wrapper">
+            <h2>My Comments</h2>
+            <p class="hint-text">All comments made by you.</p>
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>Car</th>
+                    <th>Comment</th>
+                    <th>View</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for comment in comments %}
+                    <tr>
+                        <td><img class="img-fluid" src="{{ asset('uploads/cars/images/' ~ comment.car.image ) }}"
+                                 height="54" width="92"></td>
+                        <td>{{ comment.car.brand }} {{ comment.car.model }}</td>
+                        <td>{{ comment.content }}</td>
+                        <td><a class="btn btn-outline-info" href="{{ path('car_view', {'id': comment.car.id}) }}">View
+                                &raquo;</a></td>
+                    </tr>
+
+
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+

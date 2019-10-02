@@ -1,0 +1,101 @@
+{% extends 'base.html.twig' %}
+
+{% block body_id 'edit' %}
+
+{% block main %}
+
+    {% if not form.vars.valid %}
+        <div class="alert alert-error">
+
+            <div class="alert alert-warning alert-dismissible fade show">
+                <strong>Warning!</strong>
+            {% for children in form.children %}
+                {% if not children.vars.valid %}
+
+                        {{ form_errors(children) }}
+
+                {% endif %}
+            {% endfor %}
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="signup-form">
+        <form action="{{ path('car_edit', {id: car.id}) }}" enctype="multipart/form-data" method="post">
+            <h2>Edit Car</h2>
+            <p class="hint-text">Make changes to your car.</p>
+
+            <div class="form-group">
+                Brand:
+                <select class="custom-select" name="car[brand]">
+                    {% for brand in brands %}
+                        {% if car.brand == brand.name %}
+                            <option selected value="{{ brand.id }}">{{ brand.name }}</option>
+                        {% else %}
+                            <option value="{{ brand.id }}">{{ brand.name }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                Model:
+                <input type="text" class="form-control" name="car[model]" value="{{ car.model }}"
+                       required="required"></div>
+            <div class="form-group">
+                Body Type:
+                <select class="custom-select" name="car[body]">
+                    {% for body in bodies %}
+                        {% if car.body == body.type %}
+                            <option selected value="{{ body.id }}">{{ body.type }}</option>
+                        {% else %}
+                            <option value="{{ body.id }}">{{ body.type }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                Year Made:
+                <input type="text" class="form-control" name="car[year]" value="{{ car.year }}"
+                       required="required"></div>
+            <div class="form-group">
+                Fuel:
+                <select class="custom-select" name="car[fuel]">
+                    {% for fuel in fuels %}
+                        {% if car.fuel == fuel.type %}
+                            <option selected value="{{ fuel.id }}">{{ fuel.type }}</option>
+                        {% else %}
+                            <option value="{{ fuel.id }}">{{ fuel.type }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                Power:
+                <input type="text" class="form-control" name="car[power]" value="{{ car.power }}"
+                       required="required"></div>
+            <div class="form-group">
+                Top Speed:
+                <input type="text" class="form-control" name="car[topSpeed]" value="{{ car.topSpeed }}"
+                       required="required"></div>
+            <div class="form-group">
+                Acceleration:
+                <input type="text" class="form-control" name="car[acceleration]" value="{{ car.acceleration }}"
+                       required="required"></div>
+            <div class="form-group">
+                Image:
+                <div class="form-group">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="inputGroupFile01"
+                               aria-describedby="inputGroupFileAddon01" name="car[new_image]">
+                        <label class="custom-file-label" for="inputGroupFile01">Choose image</label>
+                    </div>
+                </div>
+                {{ form_row(form._token) }}
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success btn-lg btn-block">Edit</button>
+                </div>
+        </form>
+    </div>
+{% endblock %}
+

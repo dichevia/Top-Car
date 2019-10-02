@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block body_id 'my_comments' %}
+
+{% block main %}
+
+    <div class="container">
+
+        <div class="table-wrapper">
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+            <h2>My Comments</h2>
+            <p class="hint-text">All comments made by you.</p>
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>Car</th>
+                    <th>Comment</th>
+                    <th>View</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for comment in comments %}
+                    <tr>
+                        <td><img class="img-fluid" src="{{ asset('uploads/cars/images/' ~ comment.car.image ) }}"
+                                 height="54" width="92"></td>
+                        <td>{{ comment.car.brand }} {{ comment.car.model }}</td>
+                        <td>{{ comment.content }}</td>
+                        <td><a class="btn btn-outline-info" href="{{ path('car_view', {'id': comment.car.id}) }}">View
+                                &raquo;</a></td>
+                        <td><a class="btn btn-outline-success" href="{{ path('edit', {'id': comment.id}) }}">Edit
+                                &raquo;</a></td>
+                        <td><a class="btn btn-outline-danger" href="{{ path('delete', {'id': comment.id}) }}">Delete
+                                &raquo;</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+{% endblock %}
+
+

@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block body_id 'all_cars' %}
+
+
+{% block main %}
+
+    <div class="container">
+
+        <!-- Jumbotron Header -->
+        <header class="justify-content-md-center my-4">
+
+            <h1 class="display-8">{{ title }}</h1>
+
+        </header>
+
+        <div class="album py-5 bg-light">
+
+            <div class="container">
+
+                <div class="row">
+                    {% for car in cars %}
+                        <div class="col-md-4">
+                            <div class="card mb-4 box-shadow">
+                                <img class="card-img-top" src="{{ asset('uploads/cars/images/' ~ car.image) }}"
+                                     alt="Card image cap">
+                                <div class="card-body">
+                                    <p class="card-text">{{ car.brand }} {{ car.model }}</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group">
+                                            <a href="{{ path('car_view', {'id': car.id}) }}"
+                                               class="btn btn-sm btn-outline-primary" role="button"
+                                               aria-disabled="true">View</a>
+                                        </div>
+                                        <small class="text-muted">{{ car.viewCount }} views</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                </div>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        {% for page in paginator %}
+                            {% if cur == page|round %}
+                                <li class="page-item active">
+                                    <a class="page-link" href="#">{{ page }} <span class="sr-only">(current)</span></a>
+                                </li>
+                            {% else %}
+                                <li class="page-item"><a class="page-link"
+                                                         href="{{ path('car_all', {'page':page}) }}">{{ page }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
+
